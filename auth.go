@@ -17,16 +17,16 @@ const (
 )
 
 type Client struct {
-	Email      string `json:"email"`
-	Password   string `json:"password"`
+	email      string
+	password   string
 	httpClient *http.Client
 	csrfToken  string
 }
 
 func NewClient(email string, password string) Client {
 	return Client{
-		Email:      email,
-		Password:   password,
+		email:      email,
+		password:   password,
 		httpClient: &http.Client{Timeout: 30 * time.Second},
 		csrfToken:  "",
 	}
@@ -35,11 +35,11 @@ func NewClient(email string, password string) Client {
 func (c *Client) ensureInitialized() error {
 	missing := make([]string, 0, 2)
 
-	if c.Email == "" {
+	if c.email == "" {
 		missing = append(missing, "email")
 	}
 
-	if c.Password == "" {
+	if c.password == "" {
 		missing = append(missing, "password")
 	}
 
@@ -117,9 +117,9 @@ func (c *Client) Login() (LoginResponse, error) {
 	}
 
 	payload := loginPayload{
-		SessionKey:      c.Email,
+		SessionKey:      c.email,
 		CSRFToken:       c.csrfToken,
-		SessionPassword: c.Password,
+		SessionPassword: c.password,
 	}
 
 	params, err := json.Marshal(payload)
