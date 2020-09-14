@@ -73,7 +73,7 @@ func (c *Client) Seed() error {
 		return err
 	}
 
-	csrfToken := ExtractValue(d, `input[name="loginCsrfParam"]`)
+	csrfToken := extractValue(d, `input[name="loginCsrfParam"]`)
 	if csrfToken == "" {
 		return fmt.Errorf("request did not return csrf token")
 	}
@@ -148,9 +148,9 @@ func (c *Client) Login() (LoginResponse, error) {
 		return LoginResponse{}, err
 	}
 
-	challengeType := ExtractValue(d, `input[name="challengeType"]`)
-	challengeData := ExtractValue(d, `input[name="challengeData"]`)
-	challengeDetails := ExtractValue(d, `input[name="challengeDetails"]`)
+	challengeType := extractValue(d, `input[name="challengeType"]`)
+	challengeData := extractValue(d, `input[name="challengeData"]`)
+	challengeDetails := extractValue(d, `input[name="challengeDetails"]`)
 
 	actionsNeeded := false
 
@@ -159,18 +159,18 @@ func (c *Client) Login() (LoginResponse, error) {
 	}
 
 	return LoginResponse{
-		CSRFToken:           ExtractValue(d, `input[name="csrfToken"]`),
-		PageInstance:        ExtractValue(d, `input[name="pageInstance"]`),
-		ResendURL:           ExtractValue(d, `input[name="resendUrl"]`),
-		ChallengeID:         ExtractValue(d, `input[name="challengeId"]`),
+		CSRFToken:           extractValue(d, `input[name="csrfToken"]`),
+		PageInstance:        extractValue(d, `input[name="pageInstance"]`),
+		ResendURL:           extractValue(d, `input[name="resendUrl"]`),
+		ChallengeID:         extractValue(d, `input[name="challengeId"]`),
 		Language:            "en-US",
-		DisplayTime:         ExtractValue(d, `input[name="displayTime"]`),
-		ChallengeSource:     ExtractValue(d, `input[name="challengeSource"]`),
-		RequestSubmissionId: ExtractValue(d, `input[name="requestSubmissionId"]`),
+		DisplayTime:         extractValue(d, `input[name="displayTime"]`),
+		ChallengeSource:     extractValue(d, `input[name="challengeSource"]`),
+		RequestSubmissionId: extractValue(d, `input[name="requestSubmissionId"]`),
 		ChallengeType:       challengeType,
 		ChallengeData:       challengeData,
 		ChallengeDetails:    challengeDetails,
-		FailureRedirectURI:  ExtractValue(d, `input[name="failureRedirectUri"]`),
+		FailureRedirectURI:  extractValue(d, `input[name="failureRedirectUri"]`),
 		ActionsNeeded:       actionsNeeded,
 	}, nil
 }
